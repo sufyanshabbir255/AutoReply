@@ -1,0 +1,89 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/lin"
+    tools:context="com.digitify.autoreply.SettingFragment">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_left"
+    >
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/size"
+        android:layout_alignBaseline="@+id/toggleButton"
+        android:layout_alignBottom="@+id/toggleButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/send_sms" />
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:id="@+id/toggleButton"
+        tools:ignore="RelativeOverlap" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/dumy_Text"
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toggleButton"
+        android:layout_marginTop="59dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/round_layout"
+        android:gravity="center"
+        android:text="dumy text"
+        android:textColor="@color/windowBackground"
+        android:layout_marginEnd="30dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dumy_Text"
+        android:layout_marginTop="59dp"
+        android:id="@+id/edit_Button"
+        android:gravity="center"
+        android:background="@drawable/round_layout2"
+        android:text="Edit Message"
+        android:padding="@dimen/margin_left"
+        android:layout_centerHorizontal="true"/>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/toggleButton"
+        android:layout_alignRight="@+id/toggleButton"
+        android:layout_below="@+id/toggleButton"
+        android:layout_marginTop="14dp"
+         />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/size"
+        android:layout_alignBaseline="@+id/checkBox"
+        android:layout_alignBottom="@+id/checkBox"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:text="Today Is Off!" />
+</RelativeLayout>
+
+
+</LinearLayout>

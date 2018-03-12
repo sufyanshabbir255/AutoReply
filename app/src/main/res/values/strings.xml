@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">AutoReply</string>
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="Closed_Text">Closed</string>
+    <string name="Setting_Fragment">Setting Fragment</string>
+    <string name="Popup_Title">Auto Reply Window</string>
+    <string name="Closed_Office">office closed</string>
+    <string name="Done_Editing">Done</string>
+    <string name="sms_message"><![CDATA[ From : %1$s<br/>%2$s]]></string>
+    <string name="Cancel_Button">Cancel</string>
+    <string name="Key">mydata</string>
+    <string name="sharedTokenKey">sharedTokenKey</string>
+    <string name="tokenKey">tokenKey</string>
+    <string name="message">name</string>
+    <string name="Office_Open">Office Open</string>
+    <string name="Closed_Office_Toast">Office Closed</string>
+    <string name="History_Fragment">History Fragment</string>
+    <string name="send_sms">Auto Reply/Reject Calls</string>
 </resources>
