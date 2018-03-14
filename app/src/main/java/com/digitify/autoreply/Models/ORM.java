@@ -5,13 +5,13 @@ import com.orm.SugarRecord;
 public class ORM extends SugarRecord {
     private String number;
     private String token;
+
     public ORM(){
     }
 
     public ORM(String number,String token){
         this.number = number;
         this.token=token;
-
     }
 
     public String getNumber() {

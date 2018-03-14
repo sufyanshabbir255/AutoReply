@@ -1,8 +1,6 @@
 package com.digitify.autoreply;
 
 import android.Manifest;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -19,14 +18,10 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.view.View;
-import android.widget.Toast;
-
 import com.digitify.autoreply.Adapters.ViewPagerAdapter;
 import com.digitify.autoreply.Models.ORM;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,15 +29,11 @@ public class MainActivity extends AppCompatActivity {
     private final static int REQUEST_READ_PHONE_STATE = 3005;
     private final static String REG_CODE_SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
     private static final String REG_CODE_REJECT_CALL = "android.intent.action.PHONE_STATE";
-    final static int RQS_1 = 1;
     RequestPermissionAction onPermissionCallBack;
-
     long sharedPreferencesLongToken, token = 0;
-    String incomingNumber, TokenNumber;
+    String TokenNumber,number;
     private TabLayout tabLayout;
     SharedPreferences sharedPreferences;
-
-    String number;
     private ViewPager viewPager;
     ArrayList<ORM> arrayList;
     private int[] tabIcons = {
@@ -56,13 +47,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViews();
         getReadSMSPermission(onPermissionCallBack);
-
     }
 
     private void initViews() {
         viewPager = findViewById(R.id.viewpager);
         tabLayout = findViewById(R.id.tabs);
-
     }
 
     private void initObj() {
@@ -71,28 +60,11 @@ public class MainActivity extends AppCompatActivity {
         arrayList = new ArrayList<>();
         setupTabIcons();
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.Key), Context.MODE_PRIVATE);
-
-
     }
-
-
-
 
     private void initListeners() {
         // toggle.setOnClickListener(mGlobal_OnClickListener);
     }
-
-    final View.OnClickListener mGlobal_OnClickListener = new View.OnClickListener() {
-        public void onClick(final View v) {
-            switch (v.getId()) {
-                case R.id.toggleButton: {
-
-                    break;
-                }
-            }
-        }
-
-    };
 
     private void setUpViewPager(ViewPager viewPager) {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -114,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(smsReceiver, smsFilter);
         registerReceiver(smsSender, smsFilter);
         registerReceiver(callRejected, callFilter);
-        //Toast.makeText(getActivity(), "check open", Toast.LENGTH_SHORT).show();
     }
 
     public void unRegisterSmsBroadCastReceiver() {
@@ -136,21 +107,15 @@ public class MainActivity extends AppCompatActivity {
             try {
 
                 if (bundle != null) {
-
-                    // A PDU is a "protocol autoReplyList unit". This is the industrial standard for SMS message
                     final Object[] pdusObj = (Object[]) bundle.get("pdus");
-
-                    for (int i = 0; i < pdusObj.length; i++) {
-                        SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
+                    assert pdusObj != null;
+                    for (Object aPdusObj : pdusObj) {
+                        SmsMessage sms = SmsMessage.createFromPdu((byte[]) aPdusObj);
                         number = sms.getDisplayOriginatingAddress();
-
                         sharedPreferencesLongToken = sharedPreferences.getLong(getResources().getString(R.string.tokenKey), token);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-
-                        List<ORM> list = ORM.findWithQuery(ORM.class,"select * from ORM where number=?",number);
-                        if(list.size()==0)
-                        {
+                        List<ORM> list = ORM.findWithQuery(ORM.class, "select * from ORM where number=?", number);
+                        if (list.size() == 0) {
                             sharedPreferencesLongToken = sharedPreferencesLongToken + 1;
                             editor.putLong(getResources().getString(R.string.tokenKey), sharedPreferencesLongToken);
                             editor.apply();
@@ -159,36 +124,30 @@ public class MainActivity extends AppCompatActivity {
                             sugarORM.save();
                             Intent localIntent = new Intent("UpdateList");
                             LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
-
                         }
-
-
                     }
-
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
     };
+
     private BroadcastReceiver smsSender = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
             try {
-
                 String newMessage = sharedPreferences.getString(getResources().getString(R.string.message), "");
                 SmsManager smsManager = SmsManager.getDefault();
                 if (SettingFragment.checkOffDay.isChecked()) {
                     smsManager.sendTextMessage(number, null, newMessage, null, null);
                 } else {
-
-                    if (null!=TokenNumber) {
+                    if (null != TokenNumber) {
                         smsManager.sendTextMessage(number, null, newMessage + "\nToken Number is: " + TokenNumber, null, null);
-                    }else{
-                        List<ORM> list = ORM.findWithQuery(ORM.class,"select * from ORM where number=?",number);
+                    } else {
+                        List<ORM> list = ORM.findWithQuery(ORM.class, "select * from ORM where number=?", number);
                         smsManager.sendTextMessage(number, null, newMessage + "\nToken Number: " + list.get(0).getToken(), null, null);
                     }
                 }
@@ -197,9 +156,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
     private BroadcastReceiver callRejected = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             Bundle myBundle = intent.getExtras();
             if (myBundle != null) {
                 try {
@@ -214,11 +175,10 @@ public class MainActivity extends AppCompatActivity {
                             Class<?> telephonyInterfaceClass = Class.forName(telephonyInterface.getClass().getName());
                             Method methodEndCall = telephonyInterfaceClass.getDeclaredMethod("endCall");
                             methodEndCall.invoke(telephonyInterface);
-
                         }
 
                     }
-                } catch (Exception ex) { // Many things can go wrong with reflection calls
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -252,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED) {
 

@@ -39,9 +39,8 @@ public class SettingFragment extends Fragment {
     LayoutInflater inflater;
     String autoReplyText;
     public String DEFAULT="";
-    public boolean checked=false;
-    //public String DEFAULT=getResources().getString(R.string.Closed_Text);
     LinearLayout linearLayout;
+
     public SettingFragment() {
     }
 
@@ -66,11 +65,14 @@ public class SettingFragment extends Fragment {
         linearLayout=v.findViewById(R.id.lin);
         newText=v.findViewById(R.id.dumy_Text);
     }
+
     private void initListeners() {
         editButton.setOnClickListener(mGlobal_OnClickListener);
     }
+
     private void initObj()
     {
+        inflater = getActivity().getLayoutInflater();
         sharedPreferences = getActivity().getSharedPreferences(getResources().getString(R.string.Key), Context.MODE_PRIVATE);
         if (sharedPreferences.getBoolean(getResources().getString(R.string.button_state),false)){
             toggle.setChecked(true);
@@ -80,19 +82,15 @@ public class SettingFragment extends Fragment {
         {
             toggle.setChecked(false);
         }
-
-
-        //sharedPreferences.getBoolean(getResources().getString(R.string.button_state),true);
-
         dialogBuilder = new AlertDialog.Builder(getActivity());
     }
+
     final View.OnClickListener mGlobal_OnClickListener = new View.OnClickListener() {
         public void onClick(final View v) {
             switch (v.getId()) {
                 case R.id.edit_Button:
                     showAutoReplyWindow();
                     break;
-
             }
         }
 
@@ -107,29 +105,21 @@ public class SettingFragment extends Fragment {
                 editor.putBoolean(getResources().getString(R.string.button_state),true);
                 editor.apply();
                 ((MainActivity)getActivity()).registerSMSBroadcastReceiver();
-
-
             } else {
-               // Toast.makeText(getActivity(), "check closed", Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(getResources().getString(R.string.button_state),false);
                 editor.apply();
                 ((MainActivity)getActivity()).unRegisterSmsBroadCastReceiver();
-
             }
         }
     });
 }
 
-
-
     public void showAutoReplyWindow()
     {
-        inflater = getActivity().getLayoutInflater();
         dialogView = inflater.inflate(R.layout.popup_layout, null);
         dialogBuilder.setView(dialogView);
         final EditText edt = dialogView.findViewById(R.id.edit);
-
         dialogBuilder.setTitle(getResources().getString(R.string.Popup_Title));
         dialogBuilder.setPositiveButton(getResources().getString(R.string.Done_Editing), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -149,17 +139,17 @@ public class SettingFragment extends Fragment {
         dialogBuilder.setNegativeButton(getResources().getString(R.string.Cancel_Button), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.cancel();
-                //pass
             }
         });
         builder = dialogBuilder.create();
         builder.setCancelable(false);
         builder.show();
     }
+
     public void setAutoReplyMessage()
     {
         newMessage=sharedPreferences.getString(getResources().getString(R.string.message),DEFAULT);
         newText.setText(newMessage);
-
     }
+
 }

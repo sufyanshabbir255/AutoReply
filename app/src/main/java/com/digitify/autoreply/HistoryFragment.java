@@ -1,6 +1,5 @@
 package com.digitify.autoreply;
 
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -15,13 +14,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
-
 import com.digitify.autoreply.Adapters.HistoryAdapter;
 import com.digitify.autoreply.Models.HistoryModel;
 import com.digitify.autoreply.Models.ORM;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -29,11 +24,9 @@ import java.util.List;
 public class HistoryFragment extends Fragment {
     RecyclerView recyclerView;
     HistoryAdapter adapter;
-    String number;
     Calendar cal, current;
     final static int RQS_1 = 1;
     RecyclerView.LayoutManager layoutManager;
-
 
     public HistoryFragment() {
 
@@ -43,7 +36,6 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
-
         initViews(view);
         initObj();
         initListeners();
@@ -71,30 +63,26 @@ public class HistoryFragment extends Fragment {
 
             }
         }
-
     };
 
     public void setTimeForClearList() {
         cal.setTimeInMillis(System.currentTimeMillis());
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
-
         if (cal.compareTo(current) <= 0) {
-
         } else {
             setAlarm(cal);
         }
     }
-
     private void setAlarm(Calendar targetCal) {
-        Intent intent = new Intent(getActivity(), Receiver.class);
+        Intent alarmIntent = new Intent(getActivity(), Receiver.class);
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), RQS_1, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), RQS_1, alarmIntent, 0);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         setupAdapter();
     }
-    public void registerReceiver()
-    {
+
+    public void registerReceiver() {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateListReceiver, new IntentFilter("UpdateList")
         );
 
