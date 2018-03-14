@@ -33,8 +33,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.numberView.setText(data.get(position).number);
-        holder.tokenNumber.setText(data.get(position).token);
+        holder.numberView.setText(data.get(position).getNumber());
+        holder.tokenNumber.setText("Token #: "+data.get(position).getToken());
 
     }
 

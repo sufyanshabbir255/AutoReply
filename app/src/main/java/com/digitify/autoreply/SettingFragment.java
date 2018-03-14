@@ -27,7 +27,7 @@ import java.util.Arrays;
 
 
 public class SettingFragment extends Fragment {
-    private CheckBox checkOffDay;
+    public static CheckBox checkOffDay;
     ToggleButton toggle;
     TextView newText;
     Button editButton;
@@ -35,10 +35,11 @@ public class SettingFragment extends Fragment {
     AlertDialog builder;
     View dialogView;
     String newMessage;
-    SharedPreferences settings,sharedPreferences;
+    SharedPreferences sharedPreferences;
     LayoutInflater inflater;
     String autoReplyText;
     public String DEFAULT="";
+    public boolean checked=false;
     //public String DEFAULT=getResources().getString(R.string.Closed_Text);
     LinearLayout linearLayout;
     public SettingFragment() {
@@ -54,17 +55,7 @@ public class SettingFragment extends Fragment {
         initListeners();
         setAutoReplyMessage();
         toogleClicked();
-        checkClicked();
         return v;
-    }
-
-    private void checkClicked() {
-        checkOffDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(), "Sufyan", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void initViews(View v)
@@ -80,6 +71,19 @@ public class SettingFragment extends Fragment {
     }
     private void initObj()
     {
+        sharedPreferences = getActivity().getSharedPreferences(getResources().getString(R.string.Key), Context.MODE_PRIVATE);
+        if (sharedPreferences.getBoolean(getResources().getString(R.string.button_state),false)){
+            toggle.setChecked(true);
+            ((MainActivity)getActivity()).registerSMSBroadcastReceiver();
+        }
+        else
+        {
+            toggle.setChecked(false);
+        }
+
+
+        //sharedPreferences.getBoolean(getResources().getString(R.string.button_state),true);
+
         dialogBuilder = new AlertDialog.Builder(getActivity());
     }
     final View.OnClickListener mGlobal_OnClickListener = new View.OnClickListener() {
@@ -99,11 +103,17 @@ public class SettingFragment extends Fragment {
     toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(getResources().getString(R.string.button_state),true);
+                editor.apply();
                 ((MainActivity)getActivity()).registerSMSBroadcastReceiver();
 
 
             } else {
                // Toast.makeText(getActivity(), "check closed", Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(getResources().getString(R.string.button_state),false);
+                editor.apply();
                 ((MainActivity)getActivity()).unRegisterSmsBroadCastReceiver();
 
             }
@@ -129,8 +139,7 @@ public class SettingFragment extends Fragment {
                   dialog.cancel();
                 }
                 else {
-                    settings = getActivity().getSharedPreferences(getResources().getString(R.string.Key), Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = settings.edit();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(getResources().getString(R.string.message), autoReplyText);
                     editor.apply();
                     setAutoReplyMessage();
@@ -149,7 +158,6 @@ public class SettingFragment extends Fragment {
     }
     public void setAutoReplyMessage()
     {
-        sharedPreferences=getActivity().getSharedPreferences(getResources().getString(R.string.Key),Context.MODE_PRIVATE);
         newMessage=sharedPreferences.getString(getResources().getString(R.string.message),DEFAULT);
         newText.setText(newMessage);
 

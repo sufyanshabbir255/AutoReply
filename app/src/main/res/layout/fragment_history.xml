@@ -20,13 +20,6 @@
     android:layout_alignParentBottom="true"
     android:gravity="bottom"
     android:orientation="horizontal"
-
    >
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:id="@+id/clear_List"
-        android:text="Clear List" />
 </LinearLayout>
 </RelativeLayout>

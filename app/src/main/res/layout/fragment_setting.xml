@@ -35,22 +35,34 @@
         android:id="@+id/toggleButton"
         tools:ignore="RelativeOverlap" />
 
+
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/dumy_Text"
-        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/toggleButton"
-        android:layout_marginTop="59dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginStart="30dp"
+        android:layout_below="@+id/checkBox"
+        android:text="@string/update_message"
+        android:textSize="@dimen/size" />
+
+
+    <TextView
+        android:id="@+id/dumy_Text"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView3"
+        android:layout_margin="16dp"
         android:background="@drawable/round_layout"
         android:gravity="center"
         android:text="dumy text"
         android:textColor="@color/windowBackground"
-        android:layout_marginEnd="30dp" />
+        android:textStyle="bold" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,7 +71,7 @@
         android:id="@+id/edit_Button"
         android:gravity="center"
         android:background="@drawable/round_layout2"
-        android:text="Edit Message"
+        android:text="Update Message"
         android:padding="@dimen/margin_left"
         android:layout_centerHorizontal="true"/>
 
@@ -74,7 +86,7 @@
          />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/checkBoxTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/size"
@@ -82,7 +94,7 @@
         android:layout_alignBottom="@+id/checkBox"
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView"
-        android:text="Today Is Off!" />
+        android:text="@string/no_appointments_today" />
 </RelativeLayout>
 
 
