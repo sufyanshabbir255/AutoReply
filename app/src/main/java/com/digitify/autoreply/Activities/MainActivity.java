@@ -1,4 +1,4 @@
-package com.digitify.autoreply;
+package com.digitify.autoreply.Activities;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -17,9 +17,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
-import android.view.View;
+
 import com.digitify.autoreply.Adapters.ViewPagerAdapter;
+import com.digitify.autoreply.Fragments.HistoryFragment;
+import com.digitify.autoreply.Fragments.SettingFragment;
 import com.digitify.autoreply.Models.ORM;
+import com.digitify.autoreply.R;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListeners() {
-        // toggle.setOnClickListener(mGlobal_OnClickListener);
     }
 
     private void setUpViewPager(ViewPager viewPager) {
@@ -223,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
             if (onPermissionCallBack != null)
                 onPermissionCallBack.permissionGranted();
 
-        } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+        } else if (grantResults[0] == PackageManager.PERMISSION_DENIED||grantResults[1]==PackageManager.PERMISSION_DENIED) {
             if (REQUEST_READ_SMS_PERMISSION == requestCode || REQUEST_READ_PHONE_STATE == requestCode) {
                 this.finish();
             }

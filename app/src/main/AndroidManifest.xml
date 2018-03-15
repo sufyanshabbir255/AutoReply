@@ -32,7 +32,7 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.digitify.autoreply" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +41,7 @@
         </activity>
 
         <receiver
-            android:name=".Receiver"
+            android:name=".Receiver.Receiver"
             android:enabled="true"
             android:exported="true"
             android:process=":remote" />

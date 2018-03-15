@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/lin"
-    tools:context="com.digitify.autoreply.SettingFragment">
+    tools:context="com.digitify.autoreply.Fragments.SettingFragment">
 
 <RelativeLayout
     android:layout_width="match_parent"

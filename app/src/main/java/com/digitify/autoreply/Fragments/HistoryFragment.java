@@ -1,4 +1,4 @@
-package com.digitify.autoreply;
+package com.digitify.autoreply.Fragments;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,9 +14,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.digitify.autoreply.Adapters.HistoryAdapter;
 import com.digitify.autoreply.Models.HistoryModel;
 import com.digitify.autoreply.Models.ORM;
+import com.digitify.autoreply.R;
+import com.digitify.autoreply.Receiver.Receiver;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,10 +31,6 @@ public class HistoryFragment extends Fragment {
     Calendar cal, current;
     final static int RQS_1 = 1;
     RecyclerView.LayoutManager layoutManager;
-
-    public HistoryFragment() {
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,24 +46,16 @@ public class HistoryFragment extends Fragment {
 
     private void initViews(View view) {
         recyclerView = view.findViewById(R.id.history_recycler);
-        cal = Calendar.getInstance();
-        current = Calendar.getInstance();
     }
 
     private void initObj() {
         setupAdapter();
+        cal = Calendar.getInstance();
+        current = Calendar.getInstance();
     }
 
     private void initListeners() {
     }
-
-    final View.OnClickListener mGlobal_OnClickListener = new View.OnClickListener() {
-        public void onClick(final View v) {
-            switch (v.getId()) {
-
-            }
-        }
-    };
 
     public void setTimeForClearList() {
         cal.setTimeInMillis(System.currentTimeMillis());
@@ -74,6 +66,7 @@ public class HistoryFragment extends Fragment {
             setAlarm(cal);
         }
     }
+
     private void setAlarm(Calendar targetCal) {
         Intent alarmIntent = new Intent(getActivity(), Receiver.class);
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);

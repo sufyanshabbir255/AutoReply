@@ -1,15 +1,16 @@
 package com.digitify.autoreply.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.digitify.autoreply.Models.HistoryModel;
 import com.digitify.autoreply.Models.ORM;
 import com.digitify.autoreply.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         return new MyViewHolder(view);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.numberView.setText(data.get(position).getNumber());

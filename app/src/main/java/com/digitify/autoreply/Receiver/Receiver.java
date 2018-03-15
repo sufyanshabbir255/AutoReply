@@ -1,4 +1,4 @@
-package com.digitify.autoreply;
+package com.digitify.autoreply.Receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.digitify.autoreply.Models.ORM;
+import com.digitify.autoreply.R;
 
 public class Receiver extends BroadcastReceiver {
     SharedPreferences sharedPreferences;
